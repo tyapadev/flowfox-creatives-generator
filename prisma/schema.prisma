@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Campaign {
+  id          String     @id @default(cuid())
+  name        String
+  industry    String
+  audience    String
+  tone        String
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  
+  headlines   Headline[]
+  images      Image[]
+  creatives   Creative[]
+}
+
+model Headline {
+  id         String     @id @default(cuid())
+  text       String
+  campaignId String
+  status     String     @default("active")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  
+  campaign   Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  creatives  Creative[]
+}
+
+model Image {
+  id         String     @id @default(cuid())
+  imageUrl   String
+  prompt     String
+  campaignId String
+  status     String     @default("active")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  
+  campaign   Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  creatives  Creative[]
+}
+
+model Creative {
+  id         String     @id @default(cuid())
+  campaignId String
+  headlineId String
+  imageId    String
+  status     String     @default("active")
+  metadata   Json?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  
+  campaign   Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  headline   Headline   @relation(fields: [headlineId], references: [id], onDelete: Cascade)
+  image      Image      @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  
+  @@unique([headlineId, imageId, campaignId])
+}

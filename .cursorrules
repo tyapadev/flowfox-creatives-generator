@@ -1,0 +1,39 @@
+# Cursor AI Configuration for FlowFox Creatives Project
+
+## Rules and Configuration
+
+### TypeScript
+- Use strict mode TypeScript
+- Avoid `any` types, always define types explicitly
+- Use Zod for runtime validation of API endpoints
+
+### Next.js 15 App Router
+- Use Server Components by default
+- Mark Client Components with 'use client' directive
+- Use async/await for Server Components
+
+### Code Style
+- Use Tailwind CSS for styling
+- Follow naming conventions (camelCase for variables, PascalCase for components)
+- Add loading states for all async operations
+- Proper error handling with try/catch blocks
+
+### API Responses
+- Structure: `{ success: boolean, data?, error? }`
+- Use NextResponse for API routes
+- Proper HTTP status codes (400, 404, 500)
+
+### Database
+- Use Prisma for all database operations
+- Use transactions for complex operations
+- Proper error handling for database errors
+
+### UI/UX
+- Loading states for all async operations
+- Disabled buttons during processing
+- Clear error messages for users
+- Responsive design (mobile-first)
+
+### Comments
+- Comments in English for business logic
+- JSDoc for complex functions
